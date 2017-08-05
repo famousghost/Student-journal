@@ -38,6 +38,8 @@ namespace StudentCartWPF_GIT
         UpdateStudentResult UpdateEntity(Student studentToUpdate);
 
         IList<Student> getAllStudents();
+
+        
     }
 
     public class StudentRepository : IStudentReposiotory
@@ -49,7 +51,9 @@ namespace StudentCartWPF_GIT
         DeleteStudentResult deleteStudentResult;
 
         UpdateStudentResult updateStudentResult;
-            
+
+        Pesel pesel;
+
         public StudentRepository()
         {
             studentsList = new List<Student>();
@@ -60,6 +64,10 @@ namespace StudentCartWPF_GIT
             if(studentsList.Contains(studentToAdd))
             {
                 addStudentResult = AddStudentResult.StudentIsExist;
+            }
+            else if(!Pesel.TryParse(studentToAdd.Pesel,out pesel))
+            {
+                addStudentResult = AddStudentResult.FailedToAddStudent;
             }
             else
             {
@@ -107,6 +115,19 @@ namespace StudentCartWPF_GIT
                 return "Taki student już istnieje";
             }
             return "Udało się dodać studenta";
+        }
+
+        public string GetStudentDeleteMessage()
+        {
+            if (deleteStudentResult == DeleteStudentResult.FailedToDeleteStudent)
+            {
+                return "Nie można usunąć studenta";
+            }
+            else if (deleteStudentResult == DeleteStudentResult.StudentIsNotExist)
+            {
+                return "Taki nie istnieje";
+            }
+            return "Udało się usunąć studenta";
         }
 
         public IList<Student> getAllStudents()
