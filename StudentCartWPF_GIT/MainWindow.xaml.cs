@@ -103,12 +103,12 @@ namespace StudentCartWPF_GIT
         {
             if(studentRepository.DeleteEntity((Student)StudentList.SelectedItem) == DeleteStudentResult.SuccessToDeleteStudent)
             {
-                MessageBox.Show("Poprawnie Usunołeś studenta");
+                MessageBox.Show(studentRepository.GetStudentDeleteMessage());
                 ShowStudentList();
             }
             else
             {
-                MessageBox.Show("Nie udalo sie usunąć studenta");
+                MessageBox.Show(studentRepository.GetStudentDeleteMessage());
             }
         }
     }
